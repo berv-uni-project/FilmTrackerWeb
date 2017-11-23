@@ -18,6 +18,9 @@ from .dataProcessor import DataProcessor
 
 
 class TweetAnalyzer:
+    TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
+    MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
+
     threshold = 0.6
 
     def predictTweets(tweets, clf):
@@ -77,7 +80,8 @@ class TweetAnalyzer:
         }
 
     def analyzeTweet(id, query):
-        clf = joblib.load('model/clf-LogisticRegression-100.pkl')
+        document = self.MODEL_ROOT + 'clf-LogisticRegression-100.pkl'
+        clf = joblib.load(document)
 
         tweets_ori = DataProcessor.requestDataFromAPI('en', query, 100)
         tweets = tweets_ori['tweet']
