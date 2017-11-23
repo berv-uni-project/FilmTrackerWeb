@@ -2,3 +2,9 @@ django
 gunicorn
 whitenoise
 requests
+nltk
+tweet-preprocessor
+numpy
+scipy
+scikit-learn
+twyhon
