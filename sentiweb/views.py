@@ -30,7 +30,7 @@ def about(request):
     contributors = []
     bervi = Contributor(name='Bervianto Leo Pratama', nim=13514047, image='images/bervi.jpg',facebook='https://facebook.com/bervianto.leo', github='https://github.com/berviantoleo', linkedin='https://www.linkedin.com/in/bervianto-leo-pratama')
     zahid = Contributor(name='M. Az-zahid Adhitya S.', nim=13514095, image='images/zahid-135.jpg')
-    luthfi = Contributor(name='Luthfi Kurniawan', nim=13514102, image='images/luthfi-135.jpg')
+    luthfi = Contributor(name='Luthfi Kurniawan', nim=13514102, image='images/luthfi.jpg')
     contributors.append(bervi)
     contributors.append(luthfi)
     contributors.append(zahid)
