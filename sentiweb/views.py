@@ -7,6 +7,19 @@ from . import tweetAnalyzer
 import requests
 import json
 
+def stemming_tokenizer(sentence):
+    stemmer = PorterStemmer()
+    sentence = word_tokenize(sentence)
+    stop_words = set(stopwords.words('english'))
+    newsentence = []
+    for word in sentence:
+        if word not in stop_words:
+            if len(word) >= 3:
+                newsentence.append(word)
+
+    newsentence = mark_negation(newsentence)
+    return newsentence
+
 @require_http_methods(["GET"])
 def index(request):
     url_film = 'http://twitter-crawler-data.herokuapp.com/api/popular'
