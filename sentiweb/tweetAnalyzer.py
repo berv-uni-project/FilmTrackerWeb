@@ -19,11 +19,11 @@ import os
 
 
 class TweetAnalyzer:
-    TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
-    MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
-
-    threshold = 0.6
-
+    def __init__(self):
+        self.TWEET_ROOT = os.path.dirname(os.path.abspath(__file__)) 
+        self.MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
+        self.threshold = 0.6
+     
     def predictTweets(tweets, clf):
         return clf.predict(tweets)
 
@@ -46,7 +46,7 @@ class TweetAnalyzer:
         else:
             raise Exception('Error use Logistic Regression classifier')
 
-    def labelTweets(tweets, proba):
+    def labelTweets(self, tweets, proba):
         newtweetsPos = []
         countPos = 0
         newtweetsNeg = []
@@ -80,7 +80,7 @@ class TweetAnalyzer:
             }
         }
 
-    def analyzeTweet(id, query):
+    def analyzeTweet(self, id, query):
         document = self.MODEL_ROOT + 'clf-LogisticRegression-100.pkl'
         clf = joblib.load(document)
 
