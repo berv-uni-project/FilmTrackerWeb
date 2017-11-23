@@ -7,7 +7,7 @@ from .tweetAnalyzer import *
 from . import classifier_en
 import requests
 import json
-
+import sys
 
 @require_http_methods(["GET"])
 def index(request):
