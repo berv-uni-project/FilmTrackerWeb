@@ -4,6 +4,7 @@
 <div id="findsenti" class="row">
     <h2>Search Movie</h2>
     <form action="{% url 'search' %}" method="POST">
+        {% csrf_token %}
         {{forms}}
     </form>        
 </div>
