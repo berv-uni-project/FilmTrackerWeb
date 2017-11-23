@@ -21,7 +21,7 @@ import os
 class TweetAnalyzer:
     def __init__(self):
         self.TWEET_ROOT = os.path.dirname(os.path.abspath(__file__)) 
-        self.MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
+        self.MODEL_ROOT = os.path.join(self.TWEET_ROOT, 'model')
         self.threshold = 0.6
      
     def predictTweets(tweets, clf):
