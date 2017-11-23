@@ -3,11 +3,8 @@ import re
 
 import nltk
 from nltk import pos_tag, sent_tokenize, word_tokenize
-from nltk.corpus import sentiwordnet as swn
-from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
 from nltk.sentiment.util import mark_negation
-from nltk.stem import PorterStemmer, WordNetLemmatizer
 from sklearn.base import TransformerMixin
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
@@ -28,7 +25,6 @@ def predictTweets(tweets, clf):
 
 
 def stemming_tokenizer(sentence):
-    stemmer = PorterStemmer()
     sentence = word_tokenize(sentence)
     stop_words = set(stopwords.words('english'))
     newsentence = []

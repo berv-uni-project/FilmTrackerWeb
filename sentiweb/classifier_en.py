@@ -1,6 +1,3 @@
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet as wn
-from nltk.corpus import sentiwordnet as swn
 from nltk import sent_tokenize, word_tokenize, pos_tag
 from nltk.sentiment.util import mark_negation
 from sklearn.feature_extraction.text import CountVectorizer
@@ -8,7 +5,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.base import TransformerMixin
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
 from sklearn.linear_model import LogisticRegression
 from sklearn.externals import joblib
 import re
@@ -27,7 +23,6 @@ def train(clf, X, y):
 
 
 def stemming_tokenizer(sentence):
-    stemmer = PorterStemmer()
     sentence = word_tokenize(sentence)
     stop_words = set(stopwords.words('english'))
     newsentence = []
