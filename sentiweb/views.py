@@ -11,17 +11,17 @@ import sys
 
 @require_http_methods(["GET"])
 def index(request):
-    setattr(sys.modules[__name__], 'stemming_tokenizer', classifier_en.stemming_tokenizer)
+    #setattr(sys.modules[__name__], 'stemming_tokenizer', classifier_en.stemming_tokenizer)
     url_film = 'http://twitter-crawler-data.herokuapp.com/api/popular'
     image_base = 'https://image.tmdb.org/t/p/w500/'
     req = requests.get(url_film)
     jsonData = json.loads(req.text)
     result = []
-    for movie in jsonData['movies']:
-        result = analyzeTweet(movie['id'], movie['title'])
-        jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
-        jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
-        jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
+    #for movie in jsonData['movies']:
+        #result = analyzeTweet(movie['id'], movie['title'])
+        #jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
+        #jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
+        #jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
         
     forms = SearchForm()
     return render(request, 'index.html', {'film_data': jsonData['movies'],  'image_base': image_base, 'forms': forms})
