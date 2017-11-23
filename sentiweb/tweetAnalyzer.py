@@ -1,64 +1,66 @@
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet as wn
+import os
+import re
+
+import nltk
+from nltk import pos_tag, sent_tokenize, word_tokenize
 from nltk.corpus import sentiwordnet as swn
-from nltk import sent_tokenize, word_tokenize, pos_tag
+from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
 from nltk.sentiment.util import mark_negation
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from sklearn.base import TransformerMixin
+from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
-from sklearn.base import TransformerMixin
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from sklearn.linear_model import LogisticRegression
-from sklearn.externals import joblib
-import re
-import nltk
-from sklearn.model_selection import train_test_split
+
 from . import dataProcessor
-import os
 
-
-TWEET_ROOT = os.path.dirname(os.path.abspath(__file__)) 
+TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
 MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
 threshold = 0.6
-     
-    def predictTweets(tweets, clf):
-        return clf.predict(tweets)
 
-    def stemming_tokenizer(sentence):
-        stemmer = PorterStemmer()
-        sentence = word_tokenize(sentence)
-        stop_words = set(stopwords.words('english'))
-        newsentence = []
-        for word in sentence:
-            if word not in stop_words:
-                if len(word) >= 3:
-                    newsentence.append(word)
 
-        newsentence = mark_negation(newsentence)
-        return newsentence
+def predictTweets(tweets, clf):
+    return clf.predict(tweets)
 
-    def predictProbaTweets(tweets, clf):
-        if "predict_proba" in dir(clf):
-            return clf.predict_proba(tweets)
+
+def stemming_tokenizer(sentence):
+    stemmer = PorterStemmer()
+    sentence = word_tokenize(sentence)
+    stop_words = set(stopwords.words('english'))
+    newsentence = []
+    for word in sentence:
+        if word not in stop_words:
+            if len(word) >= 3:
+                newsentence.append(word)
+
+    newsentence = mark_negation(newsentence)
+    return newsentence
+
+def predictProbaTweets(tweets, clf):
+    if "predict_proba" in dir(clf):
+        return clf.predict_proba(tweets)
+    else:
+        raise Exception('Error use Logistic Regression classifier')
+
+def labelTweets(self, tweets, proba):
+    newtweetsPos = []
+    countPos = 0
+    newtweetsNeg = []
+    countNeg = 0
+    newtweetsUnknown = []
+    countUnknown = 0
+    for i in range(0, len(tweets)):
+        newtweets = tweets[i]
+        label = 0
+        if proba[i][0] >= self.threshold:
+            label = 1
         else:
-            raise Exception('Error use Logistic Regression classifier')
-
-    def labelTweets(self, tweets, proba):
-        newtweetsPos = []
-        countPos = 0
-        newtweetsNeg = []
-        countNeg = 0
-        newtweetsUnknown = []
-        countUnknown = 0
-        for i in range(0, len(tweets)):
-            newtweets = tweets[i]
-            label = 0
-            if proba[i][0] >= self.threshold:
-                label = 1
-            else:
-                if proba[i][1] >= self.threshold:
-                    label = 2
+            if proba[i][1] >= self.threshold:
+                label = 2
             if label == 0:
                 newtweetsUnknown.append(newtweets)
                 countUnknown += 1
@@ -68,8 +70,7 @@ threshold = 0.6
             else:
                 newtweetsNeg.append(newtweets)
                 countNeg += 1
-
-        return {
+    return {
             'text': {
                 'pos': newtweetsPos, 'neg': newtweetsNeg, 'unknown': newtweetsUnknown
             },
@@ -78,23 +79,22 @@ threshold = 0.6
             }
         }
 
-    def analyzeTweet(id, query):
-        document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
-        clf = joblib.load(document)
+def analyzeTweet(id, query):
+    document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
+    clf = joblib.load(document)
 
-        tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
-        tweets = tweets_ori['tweet']
-        for i in range(0, len(tweets)):
-            tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
+    tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
+    tweets = tweets_ori['tweet']
+    for i in range(0, len(tweets)):
+        tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
 
-        proba = [""] * len(tweets)
-        proba = predictProbaTweets(tweets, clf)
+    proba = [""] * len(tweets)
+    proba = predictProbaTweets(tweets, clf)
 
-        dataTweets = labelTweets(tweets_ori['tweet'], proba)
-        message = {}
-        message['id'] = id
-        message['query'] = query
-        message['hasil'] = dataTweets
+    dataTweets = labelTweets(tweets_ori['tweet'], proba)
+    message = {}
+    message['id'] = id
+    message['query'] = query
+    message['hasil'] = dataTweets
 
-        return message
-
+    return message
