@@ -6,7 +6,7 @@
     <form action="{% url 'search' %}" method="POST">
         {% csrf_token %}
         {{forms}}
-        <input type="submit" value="search">
+        <input class="btn" type="submit" value="search">
     </form>        
 </div>
 
