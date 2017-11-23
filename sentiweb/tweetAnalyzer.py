@@ -15,7 +15,7 @@ import re
 import nltk
 from sklearn.model_selection import train_test_split
 from .classifier_en import ClassifierEn
-import dataProcessor
+from .dataProcessor import DataProcessor
 
 
 class TweetAnalyzer:
