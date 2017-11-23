@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from .forms import SearchForm 
+from .contributor import Contributor
 import requests
 import json
 
@@ -23,3 +24,14 @@ def search(request):
     req = requests.get(url_film, params=payload)
     jsonData = json.loads(req.text)
     return render(request, 'result.html', {'film_data': jsonData['movies'], 'image_base': image_base})
+
+@require_http_methods(["GET"])
+def about(request):
+    contributors = []
+    bervi = Contributor(name='Bervianto Leo Pratama', nim=13514047, image='images/bervi-135.jpg',facebook='https://facebook.com/bervianto.leo', github='https://github.com/berviantoleo', linkedin='https://www.linkedin.com/in/bervianto-leo-pratama')
+    zahid = Contributor(name='M. Az-zahid Adhitya S.', nim=13514095, image='images/zahid-135.jpg')
+    luthfi = Contributor(name='Luthfi Kurniawan', nim=13514102, image='images/luthfi-135.jpg')
+    contributors.append(bervi)
+    contributors.append(luthfi)
+    contributors.append(zahid)
+    return render(request, 'about.html')
