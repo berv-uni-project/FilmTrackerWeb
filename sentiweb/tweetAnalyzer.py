@@ -14,7 +14,7 @@ from sklearn.externals import joblib
 import re
 import nltk
 from sklearn.model_selection import train_test_split
-import classifier_en
+from .classifier_en import ClassifierEn
 import dataProcessor
 
 
@@ -53,10 +53,10 @@ class TweetAnalyzer:
         for i in range(0, len(tweets)):
             newtweets = tweets[i]
             label = 0
-            if proba[i][0] >= threshold:
+            if proba[i][0] >= self.threshold:
                 label = 1
             else:
-                if proba[i][1] >= threshold:
+                if proba[i][1] >= self.threshold:
                     label = 2
             if label == 0:
                 newtweetsUnknown.append(newtweets)
@@ -96,6 +96,3 @@ class TweetAnalyzer:
 
         return message
 
-
-if __name__ == '__main__':
-    analyzeTweet(1, "#jigsaw")
