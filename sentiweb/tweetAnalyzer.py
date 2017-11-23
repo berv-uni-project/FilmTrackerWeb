@@ -85,21 +85,19 @@ def analyzeTweet(id, query):
     tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
     tweets = tweets_ori['tweet']
     for i in range(0, len(tweets)):
-        tweets[i] = cleanTotalTweet(tweets[i], query)
+        tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
 
     proba = [""]*len(tweets)
     proba = predictProbaTweets(tweets, clf)
 
-    dataTweets = getTweetFromMaxProb(tweets_ori, proba)
+    dataTweets = labelTweets(tweets_ori['tweet'], proba)
     message = {}
     message['id'] = id
     message['query'] = query
     message['hasil'] = dataTweets
 
-    print(message)
+    return message
 
-    # for i in range(0, len(tweets)) :
-    #     print(tweets[i]+"\t"+str(label[i])+" "+str(proba[i]))
 
 if __name__ == '__main__':
    analyzeTweet(1, "#jigsaw")

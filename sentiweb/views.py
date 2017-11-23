@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from .forms import SearchForm 
 from .contributor import Contributor
+import tweetAnalyzer
 import requests
 import json
 
@@ -12,8 +13,15 @@ def index(request):
     image_base = 'https://image.tmdb.org/t/p/w500/'
     req = requests.get(url_film)
     jsonData = json.loads(req.text)
+    result = []
+    for movie in jsonData['movies']:
+        result = tweetAnalyzer.analyzeTweet(movie.id, movie.title)
+        jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
+        jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
+        jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
+        
     forms = SearchForm()
-    return render(request, 'index.html', {'film_data': jsonData['movies'], 'image_base': image_base, 'forms': forms})
+    return render(request, 'index.html', {'film_data': jsonData['movies'],  'image_base': image_base, 'forms': forms})
 
 @require_http_methods(["POST"])
 def search(request):

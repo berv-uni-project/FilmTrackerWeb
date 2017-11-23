@@ -51,14 +51,15 @@
 		
 		var data = {
 			datasets: [{
-				data: [ Math.floor((Math.random() * 100) + 1) ,  Math.floor((Math.random() * 100) + 1) ],
+				data: [ {{movie.count_pos}} ,  {{movie.count_neg}}, {{movie.count_unk}} ],
 				backgroundColor: ["#00ff00", "#ff0000"],
 				label: "{{ movie.title | safe}}"				
 			}],			
 			// These labels appear in the legend and in the tooltips when hovering different arcs
 			labels: [
 				'Like',
-				'Dislike'
+                'Dislike',
+                'Unknown'
 			]
 		};
 		

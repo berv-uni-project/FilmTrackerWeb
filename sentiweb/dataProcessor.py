@@ -10,7 +10,6 @@ p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.RESERVED, p.OPT.SMILEY, p.OPT.NUMBER
 def requestDataFromAPI(lang, query, count) :
     params = dict(lang=lang, query=query, count=count)
     req = requests.post(url_train, data=params)
-    print(req.text)
     jsonData = json.loads(req.text)
 
     return jsonData
