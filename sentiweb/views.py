@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from .forms import SearchForm 
 from .contributor import Contributor
-import tweetAnalyzer
+from .tweetAnalyzer import TweetAnalyzer
 import requests
 import json
 
@@ -15,7 +15,7 @@ def index(request):
     jsonData = json.loads(req.text)
     result = []
     for movie in jsonData['movies']:
-        result = tweetAnalyzer.analyzeTweet(movie.id, movie.title)
+        result = TweetAnalyzer.analyzeTweet(movie.id, movie.title)
         jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
         jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
         jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']

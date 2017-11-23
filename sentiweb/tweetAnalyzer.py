@@ -17,32 +17,33 @@ from sklearn.model_selection import train_test_split
 import classifier_en
 import dataProcessor
 
-threshold = 0.6
 
-def predictTweets(tweets, clf) :
+class TweetAnalyzer:
+    threshold = 0.6
+
+    def predictTweets(tweets, clf):
     return clf.predict(tweets)
 
-def stemming_tokenizer(sentence):
+    def stemming_tokenizer(sentence):
     stemmer = PorterStemmer()
     sentence = word_tokenize(sentence)
     stop_words = set(stopwords.words('english'))
     newsentence = []
-    for word in sentence :
-        if word not in stop_words :
-            if len(word) >=3:
+    for word in sentence:
+        if word not in stop_words:
+            if len(word) >= 3:
                 newsentence.append(word)
 
     newsentence = mark_negation(newsentence)
     return newsentence
 
-
-def predictProbaTweets(tweets, clf) :
-    if "predict_proba" in dir(clf) :
+    def predictProbaTweets(tweets, clf):
+    if "predict_proba" in dir(clf):
         return clf.predict_proba(tweets)
     else:
         raise Exception('Error use Logistic Regression classifier')
 
-def labelTweets(tweets, proba) :
+    def labelTweets(tweets, proba):
     newtweetsPos = []
     countPos = 0
     newtweetsNeg = []
@@ -54,32 +55,29 @@ def labelTweets(tweets, proba) :
         label = 0
         if proba[i][0] >= threshold:
             label = 1
-        else :
+        else:
             if proba[i][1] >= threshold:
                 label = 2
-        if label == 0 :
+        if label == 0:
             newtweetsUnknown.append(newtweets)
             countUnknown += 1
-        elif label == 1 :
+        elif label == 1:
             newtweetsPos.append(newtweets)
             countPos += 1
-        else :
+        else:
             newtweetsNeg.append(newtweets)
             countNeg += 1
 
     return {
-        'text' : {
-            'pos': newtweetsPos, 'neg':newtweetsNeg, 'unknown':newtweetsUnknown
+        'text': {
+            'pos': newtweetsPos, 'neg': newtweetsNeg, 'unknown': newtweetsUnknown
         },
-        'count' : {
-            'pos':countPos, 'neg':countNeg, 'unknown':countUnknown
+        'count': {
+            'pos': countPos, 'neg': countNeg, 'unknown': countUnknown
         }
     }
 
-
-
-
-def analyzeTweet(id, query):
+    def analyzeTweet(id, query):
     clf = joblib.load('model/clf-LogisticRegression-100.pkl')
 
     tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
@@ -87,7 +85,7 @@ def analyzeTweet(id, query):
     for i in range(0, len(tweets)):
         tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
 
-    proba = [""]*len(tweets)
+    proba = [""] * len(tweets)
     proba = predictProbaTweets(tweets, clf)
 
     dataTweets = labelTweets(tweets_ori['tweet'], proba)
@@ -100,4 +98,4 @@ def analyzeTweet(id, query):
 
 
 if __name__ == '__main__':
-   analyzeTweet(1, "#jigsaw")
+    analyzeTweet(1, "#jigsaw")
