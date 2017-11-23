@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div id="findsenti" class="row">
+    <h2>Search Movie</h2>
+    <form action="{% url 'search' %}" method="POST">
+        {% csrf_token %}
+        {{forms}}
+        <input class="btn" type="submit" value="search">
+    </form>        
+</div>
+
+<div id="trending" class="row">
+        <h2>Trending Film</h2>
+        {% if film_data %}
+        <ul class="collapsible">
+            {% for movie in film_data %}
+            <li>
+                <div class="collapsible-header">{{movie.title}}</div>
+                <div class="collapsible-body">
+                    <div class="row">
+                    <div class="col s12 m4 l2">
+                        <img class="materialboxed responsive-img" src="{{image_base}}{{movie.poster_path}}">
+                    </div>
+                    <div class="col s12 m8 l4">
+                        <h4>{{ movie.title }}</h4>
+                        <h5>Overview</h5>
+                        <p>{{ movie.overview }}</p>
+                        <h5>Release Date</h5>
+                        <p>{{ movie.release_date}}</p>
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <canvas id="trend-{{ movie.id }}"></canvas>
+                    </div>
+                    </div>
+            </div>
+            </li>
+            {% endfor %}  
+        </ul>          
+        {% else %}
+            <p>Empty</p>
+        {% endif %}
+        
+    </div>
+{% endblock %}
+
+{% block additionalscript %}
+    {% for movie in film_data %}
+    <script type="text/javascript">
+		var ctx = document.getElementById('trend-{{movie.id}}').getContext('2d');
+		
+		var data = {
+			datasets: [{
+				data: [ Math.floor((Math.random() * 100) + 1) ,  Math.floor((Math.random() * 100) + 1) ],
+				backgroundColor: ["#00ff00", "#ff0000"],
+				label: "{{ movie.title | safe}}"				
+			}],			
+			// These labels appear in the legend and in the tooltips when hovering different arcs
+			labels: [
+				'Like',
+				'Dislike'
+			]
+		};
+		
+		var options = {
+			title: {
+				display: true,
+				text: "{{movie.title | safe}}"
+			}
+		};
+		
+		var myPieChart = new Chart(ctx,{
+			type: 'pie',
+			data: data,
+			options: options
+		});
+      </script>
+      {% endfor %}
+{% endblock %}
