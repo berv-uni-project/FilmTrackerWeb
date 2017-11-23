@@ -34,4 +34,4 @@ def about(request):
     contributors.append(bervi)
     contributors.append(luthfi)
     contributors.append(zahid)
-    return render(request, 'about.html', {'contributors', contributors})
+    return render(request, 'about.html', {'contributors': contributors})
