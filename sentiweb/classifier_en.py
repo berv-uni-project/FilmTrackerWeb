@@ -15,7 +15,6 @@ import re
 import nltk
 from sklearn.model_selection import train_test_split
 
-class ClassifierEn:
 
     def train(clf, X, y):
         r_state = 100

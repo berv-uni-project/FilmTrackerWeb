@@ -4,8 +4,6 @@ import preprocessor as p
 import re
 import csv
 
-class DataProcessor:
-
     url_train = "http://twitter-crawler-data.herokuapp.com/api/traindata"
     p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.RESERVED, p.OPT.SMILEY, p.OPT.NUMBER, p.OPT.MENTION, p.OPT.HASHTAG)
 
@@ -51,7 +49,7 @@ class DataProcessor:
             while tweet[0] == ' ':
                 tweet = tweet[1:]
                 if len(tweet) < 2 :
-                    break;
+                    break
         return tweet
 
 

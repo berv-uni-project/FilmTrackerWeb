@@ -14,15 +14,13 @@ from sklearn.externals import joblib
 import re
 import nltk
 from sklearn.model_selection import train_test_split
-from .dataProcessor import DataProcessor
+from . import dataProcessor
 import os
 
 
-class TweetAnalyzer:
-    def __init__(self):
-        self.TWEET_ROOT = os.path.dirname(os.path.abspath(__file__)) 
-        self.MODEL_ROOT = os.path.join(self.TWEET_ROOT, 'model')
-        self.threshold = 0.6
+TWEET_ROOT = os.path.dirname(os.path.abspath(__file__)) 
+MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
+threshold = 0.6
      
     def predictTweets(tweets, clf):
         return clf.predict(tweets)
@@ -80,14 +78,14 @@ class TweetAnalyzer:
             }
         }
 
-    def analyzeTweet(self, id, query):
-        document = self.MODEL_ROOT + 'clf-LogisticRegression-100.pkl'
+    def analyzeTweet(id, query):
+        document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
         clf = joblib.load(document)
 
-        tweets_ori = DataProcessor.requestDataFromAPI('en', query, 100)
+        tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
         tweets = tweets_ori['tweet']
         for i in range(0, len(tweets)):
-            tweets[i] = DataProcessor.cleanTotalTweet(tweets[i], query)
+            tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
 
         proba = [""] * len(tweets)
         proba = predictProbaTweets(tweets, clf)
