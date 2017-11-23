@@ -14,7 +14,6 @@ from sklearn.externals import joblib
 import re
 import nltk
 from sklearn.model_selection import train_test_split
-from .classifier_en import ClassifierEn
 from .dataProcessor import DataProcessor
 
 
@@ -80,10 +79,10 @@ class TweetAnalyzer:
     def analyzeTweet(id, query):
         clf = joblib.load('model/clf-LogisticRegression-100.pkl')
 
-        tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
+        tweets_ori = DataProcessor.requestDataFromAPI('en', query, 100)
         tweets = tweets_ori['tweet']
         for i in range(0, len(tweets)):
-            tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
+            tweets[i] = DataProcessor.cleanTotalTweet(tweets[i], query)
 
         proba = [""] * len(tweets)
         proba = predictProbaTweets(tweets, clf)

@@ -86,7 +86,3 @@ class ClassifierEn:
 
         train(clf, sentences, expected)
 
-
-    def main() :
-        createClassifier()
-
