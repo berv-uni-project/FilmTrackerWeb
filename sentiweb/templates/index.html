@@ -3,7 +3,7 @@
 {% block content %}
 <div id="findsenti" class="row">
     <h2>Search Movie</h2>
-    <form action='{{url 'search'}}' method="POST">
+    <form action="{% url 'search' %}" method="POST">
         {{forms}}
     </form>        
 </div>
