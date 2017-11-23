@@ -17,6 +17,7 @@ def index(request):
     req = requests.get(url_film)
     jsonData = json.loads(req.text)
     result = []
+    jsonData['movies'] = jsonData['movies'][0:1]
     for movie in jsonData['movies']:
         result = analyzeTweet(movie['id'], movie['title'])
         jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
