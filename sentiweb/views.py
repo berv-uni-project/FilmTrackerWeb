@@ -4,12 +4,14 @@ from django.views.decorators.http import require_http_methods
 from .forms import SearchForm 
 from .contributor import Contributor
 from .tweetAnalyzer import *
+from . import classifier_en
 import requests
 import json
 
 
 @require_http_methods(["GET"])
 def index(request):
+    setattr(sys.modules[__name__], 'stemming_tokenizer', classifier_en.stemming_tokenizer)
     url_film = 'http://twitter-crawler-data.herokuapp.com/api/popular'
     image_base = 'https://image.tmdb.org/t/p/w500/'
     req = requests.get(url_film)
