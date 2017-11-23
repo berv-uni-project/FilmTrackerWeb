@@ -10,6 +10,7 @@ p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.RESERVED, p.OPT.SMILEY, p.OPT.NUMBER
 def requestDataFromAPI(lang, query, count) :
     params = dict(lang=lang, query=query, count=count)
     req = requests.post(url_train, data=params)
+    print(req.text)
     jsonData = json.loads(req.text)
 
     return jsonData
@@ -32,13 +33,24 @@ def generateTrainData(lang, query, count) :
         file.write(tweets[i]+"\n")
         pass
 
+def getTweets(lang, query, count) :
+    jsonData = requestDataFromAPI(lang, query, count)
+    tweets = jsonData['tweet']
+    for i in range(0, len(tweets)):
+        # print(tweets[i])
+        tweets[i] = cleanTotalTweet(tweets[i], query)
+    return tweets
+
 def cleanTotalTweet(tweet, query) :
-    tweet = tweet.lower()
     tweet = p.clean(tweet)
+    tweet = tweet.lower()
     tweet = re.sub(r'[^\w\s]|[0-9]', ' ', tweet)
     tweet = re.sub(' +',' ', tweet)
-    while tweet[0] == ' ':
-        tweet = tweet[1:]
+    if len(tweet) >= 2:
+        while tweet[0] == ' ':
+            tweet = tweet[1:]
+            if len(tweet) < 2 :
+                break;
     return tweet
 
 
@@ -49,13 +61,14 @@ def main() :
     # generateTrainData("en", "#marlina", 100)
     # generateTrainData("id", "#jigsaw", 100)
     # generateTrainData("en", "#jigsaw", 100)
-    file = open("IndoDataset.csv", "w+")
-    with open('IDpositif.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter='\t', quoting=csv.QUOTE_NONE)
-        for row in reader:
-            tweet = cleanTotalTweet(row[0], '#marlina')
-            data = tweet+"\t"+str(row[1])+"\n";
-            file.write(data)
+    # file = open("IndoDataset.csv", "w+")
+    # with open('IDpositif.csv', newline='') as csvfile:
+    #     reader = csv.reader(csvfile, delimiter='\t', quoting=csv.QUOTE_NONE)
+    #     for row in reader:
+    #         tweet = cleanTotalTweet(row[0], '#marlina')
+    #         data = tweet+"\t"+str(row[1])+"\n";
+    #         file.write(data)
+    getTweets('en', '#nekomonogatari', 100)
 
 
 
