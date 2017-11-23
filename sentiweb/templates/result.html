@@ -1,15 +1,9 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div id="findsenti" class="row">
-    <h2>Search Movie</h2>
-    <form action='{{url 'search'}}' method="POST">
-        {{forms}}
-    </form>        
-</div>
 
 <div id="trending" class="row">
-        <h2>Trending Film</h2>
+        <h2>Result</h2>
         {% if film_data %}
         <ul class="collapsible">
             {% for movie in film_data %}
