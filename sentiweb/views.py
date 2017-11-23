@@ -3,22 +3,10 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from .forms import SearchForm 
 from .contributor import Contributor
-from . import tweetAnalyzer
+from .tweetAnalyzer import *
 import requests
 import json
 
-def stemming_tokenizer(sentence):
-    stemmer = PorterStemmer()
-    sentence = word_tokenize(sentence)
-    stop_words = set(stopwords.words('english'))
-    newsentence = []
-    for word in sentence:
-        if word not in stop_words:
-            if len(word) >= 3:
-                newsentence.append(word)
-
-    newsentence = mark_negation(newsentence)
-    return newsentence
 
 @require_http_methods(["GET"])
 def index(request):
@@ -28,7 +16,7 @@ def index(request):
     jsonData = json.loads(req.text)
     result = []
     for movie in jsonData['movies']:
-        result = tweetAnalyzer.analyzeTweet(movie['id'], movie['title'])
+        result = analyzeTweet(movie['id'], movie['title'])
         jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
         jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
         jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']

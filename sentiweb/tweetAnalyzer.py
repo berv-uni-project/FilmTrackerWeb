@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-from . import dataProcessor
+from .dataProcessor import *
 
 TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
 MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
@@ -83,10 +83,10 @@ def analyzeTweet(id, query):
     document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
     clf = joblib.load(document)
 
-    tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
+    tweets_ori = requestDataFromAPI('en', query, 100)
     tweets = tweets_ori['tweet']
     for i in range(0, len(tweets)):
-        tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
+        tweets[i] = cleanTotalTweet(tweets[i], query)
 
     proba = [""] * len(tweets)
     proba = predictProbaTweets(tweets, clf)
