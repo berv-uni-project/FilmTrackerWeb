@@ -95,6 +95,6 @@ def analyzeTweet(id, query):
 
     return message
 
-if __name__ == "__main__":
-        tweets = analyzeTweet(1,'#marlina')
-        print(tweets)
+# if __name__ == "__main__":
+#         tweets = analyzeTweet(1,'#marlina')
+#         print(tweets)
