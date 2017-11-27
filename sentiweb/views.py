@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
-from .forms import SearchForm 
+from .forms import SearchForm
 from .contributor import Contributor
 from .tweetAnalyzer import *
 from . import classifier_en
@@ -17,13 +17,13 @@ def index(request):
     req = requests.get(url_film)
     jsonData = json.loads(req.text)
     result = []
-    # jsonData['movies'] = jsonData['movies'][0:1]
-    # for movie in jsonData['movies']:
-    #     result = analyzeTweet(movie['id'], movie['title'])
-    #     jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
-    #     jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
-    #     jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
-        
+    jsonData['movies'] = jsonData['movies'][0:1]
+    for movie in jsonData['movies']:
+        result = analyzeTweet(movie['id'], movie['title'])
+        jsonData['movies'][movie]['count_pos'] = result['hasil']['count']['pos']
+        jsonData['movies'][movie]['count_neg'] = result['hasil']['count']['neg']
+        jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
+
     forms = SearchForm()
     return render(request, 'index.html', {'film_data': jsonData['movies'],  'image_base': image_base, 'forms': forms})
 

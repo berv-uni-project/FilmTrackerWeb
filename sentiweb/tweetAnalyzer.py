@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-from .dataProcessor import *
+from . import dataProcessor
 
 TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
 MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
@@ -42,7 +42,7 @@ def predictProbaTweets(tweets, clf):
     else:
         raise Exception('Error use Logistic Regression classifier')
 
-def labelTweets(self, tweets, proba):
+def labelTweets(tweets, proba):
     newtweetsPos = []
     countPos = 0
     newtweetsNeg = []
@@ -52,10 +52,10 @@ def labelTweets(self, tweets, proba):
     for i in range(0, len(tweets)):
         newtweets = tweets[i]
         label = 0
-        if proba[i][0] >= self.threshold:
+        if proba[i][0] >= threshold:
             label = 1
         else:
-            if proba[i][1] >= self.threshold:
+            if proba[i][1] >= threshold:
                 label = 2
             if label == 0:
                 newtweetsUnknown.append(newtweets)
@@ -79,10 +79,10 @@ def analyzeTweet(id, query):
     document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
     clf = joblib.load(document)
 
-    tweets_ori = requestDataFromAPI('en', query, 100)
+    tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
     tweets = tweets_ori['tweet']
     for i in range(0, len(tweets)):
-        tweets[i] = cleanTotalTweet(tweets[i], query)
+        tweets[i] = dataProcessor.cleanTotalTweet(tweets[i], query)
 
     proba = [""] * len(tweets)
     proba = predictProbaTweets(tweets, clf)
@@ -94,3 +94,7 @@ def analyzeTweet(id, query):
     message['hasil'] = dataTweets
 
     return message
+
+if __name__ == "__main__":
+        tweets = analyzeTweet(1,'#marlina')
+        print(tweets)
