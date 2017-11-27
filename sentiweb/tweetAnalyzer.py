@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-from . import dataProcessor
+import dataProcessor
 
 TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
 MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
@@ -95,6 +95,9 @@ def analyzeTweet(id, query):
 
     return message
 
-# if __name__ == "__main__":
-#         tweets = analyzeTweet(1,'#marlina')
-#         print(tweets)
+if __name__ == "__main__":
+        tweets = analyzeTweet(1,'#marlina')
+        file = open("data_hasil", "w+")
+        file.write(str(tweets))
+        file.close()
+        print(tweets)
