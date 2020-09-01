@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-import dataProcessor
+import sentiweb.dataProcessor
 
 TWEET_ROOT = os.path.dirname(os.path.abspath(__file__))
 MODEL_ROOT = os.path.join(TWEET_ROOT, 'model')
