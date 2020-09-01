@@ -6,10 +6,10 @@ from sklearn.svm import LinearSVC
 from sklearn.base import TransformerMixin
 from nltk.corpus import stopwords
 from sklearn.linear_model import LogisticRegression
-from sklearn.externals import joblib
 import re
 import nltk
 from sklearn.model_selection import train_test_split
+from joblib import dump
 
 
 def train(clf, X, y):
@@ -18,7 +18,7 @@ def train(clf, X, y):
         X, y, test_size=0.1, random_state=r_state)
     clf.fit(X_train, y_train)
     name = clf.get_params(False)
-    joblib.dump(clf, 'model/clf-' +
+    dump(clf, 'model/clf-' +
                 name['memory'] + '-' + str(r_state) + '.pkl')
 
 
