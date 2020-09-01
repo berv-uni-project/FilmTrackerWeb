@@ -1,14 +1,19 @@
 FROM python:3.8-alpine
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
-RUN apk add --update-cache --no-cache libgcc libquadmath musl \
-  && apk add --update-cache --no-cache libgfortran \
-  && apk add --update-cache --no-cache lapack-dev
-RUN apk add --no-cache \
-  gcc \
-  python3-dev \
-  musl-dev \
-  postgresql-dev
 COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+RUN apk update \
+  &&  apk add --upgrade --no-cache \
+  python3 libpq uwsgi-python3 \
+  python3-dev py3-pip alpine-sdk postgresql-dev postgresql \
+  proj proj-dev \
+  proj-util \
+  bash openssh curl ca-certificates openssl less htop \
+  g++ make wget rsync \
+  build-base libpng-dev freetype-dev libexecinfo-dev openblas-dev libgomp lapack-dev \
+  libgcc libquadmath musl  \
+  libgfortran \
+  lapack-dev \
+  &&  pip install --no-cache-dir --upgrade pip \
+  &&  pip install --no-cache-dir -r requirements.txt
 COPY . /app/
