@@ -6,7 +6,7 @@ from nltk import pos_tag, sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.sentiment.util import mark_negation
 from sklearn.base import TransformerMixin
-from sklearn.externals import joblib
+from joblib import load
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -77,7 +77,7 @@ def labelTweets(tweets, proba):
 
 def analyzeTweet(id, query):
     document = MODEL_ROOT + '/clf-LogisticRegression-100.pkl'
-    clf = joblib.load(document)
+    clf = load(document)
 
     tweets_ori = dataProcessor.requestDataFromAPI('en', query, 100)
     tweets = tweets_ori['tweet']
