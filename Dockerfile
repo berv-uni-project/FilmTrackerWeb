@@ -4,7 +4,7 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN apk update \
   &&  apk add --upgrade --no-cache \
-  gcc gfortran postgresql-client \
+  gcc gfortran postgresql-dev \
   build-base wget freetype-dev \
   libpng-dev openblas-dev \
   && ln -s /usr/include/locale.h /usr/include/xlocale.h \
