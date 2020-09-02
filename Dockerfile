@@ -4,10 +4,8 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN apk update \
   &&  apk add --upgrade --no-cache \
-  python3 libpq uwsgi-python3 \
-  python3-dev py3-pip alpine-sdk postgresql-dev postgresql \
-  proj proj-dev \
-  proj-util \
+  libpq uwsgi-python3 \
+  python3-dev py3-pip alpine-sdk postgresql-dev \
   bash openssh curl ca-certificates openssl less htop \
   g++ make wget rsync \
   build-base libpng-dev freetype-dev libexecinfo-dev openblas-dev libgomp lapack-dev \
