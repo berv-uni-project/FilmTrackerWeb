@@ -12,3 +12,4 @@ tweet-preprocessor==0.6.0
 TwitterSearch==1.0.2
 twython==3.8.2
 whitenoise==5.2.0
+pycryptodome>=3.4.4 # not directly required, pinned by Snyk to avoid a vulnerability
