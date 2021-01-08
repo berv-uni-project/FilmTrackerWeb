@@ -3,8 +3,10 @@ import json
 import preprocessor as p
 import re
 import csv
+import os
 
-url_train = "http://twitter-crawler-data.herokuapp.com/api/traindata"
+url_train = os.environ.get(
+    "TRAIN_URL", "https://filmesenti.herokuapp.com/api/traindata")
 p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.RESERVED,
                   p.OPT.SMILEY, p.OPT.NUMBER, p.OPT.MENTION, p.OPT.HASHTAG)
 
