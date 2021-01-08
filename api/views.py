@@ -27,7 +27,7 @@ def initializationDb():
     user = auth.sign_in_with_email_and_password(email, password)
 
     # Get a reference to the database service
-    return firebase.database(), user['idToken']
+    return firebase.database(), user['idToken'], user['uid']
 
 
 @require_http_methods(["GET", "POST"])
@@ -39,7 +39,7 @@ def save(request):
         form = QueryForm(request.POST)
         if form.is_valid():
             try:
-                db, token = initializationDb()
+                db, token, uid = initializationDb()
                 lang = request.POST.get("lang", "en")
                 queryRaw = request.POST.get("query", "Film")
                 count = int(request.POST.get("count", 10))
@@ -62,7 +62,7 @@ def save(request):
                     # Pass the user's idToken to the push method
                     data = {"username": tweet['user']['screen_name'], "tweet": tweet['text'],
                             "favorite_count": tweet['favorite_count'], "retweet_count": tweet['retweet_count'], "lang": lang}
-                    db.child("tweet").child(tweet['id']).set(data, token)
+                    db.child("uid").child("tweet").child(tweet['id']).set(data, token)
                 response = {"status": 200, "message": "Success Save"}
                 return JsonResponse(response)
             except TwitterSearchException as e:
@@ -90,12 +90,12 @@ def movie_list(request):
                 'primary_release_date.lte': release_date_lte,
             })
 
-            db, token = initializationDb()
+            db, token, uid = initializationDb()
             for movie in movies:
                 data = {"id": movie.id, "title": movie.title, "overview": movie.overview,
                         "poster_path": movie.poster_path, "release_date": movie.release_date, "popularity": movie.popularity,
                         "original_title": movie.original_title, "vote_count": movie.vote_count, "vote_average": movie.vote_average}
-                db.child("movie_list").child(movie.id).set(data, token)
+                db.child(uid).child("movie_list").child(movie.id).set(data, token)
             response = {"status": 200, "message": "Success Save"}
             return JsonResponse(response)
         else:
@@ -113,13 +113,13 @@ def popular_movie(request):
         movie = Movie()
         popular = movie.popular()
 
-        db, token = initializationDb()
+        db, token, uid = initializationDb()
         db.child("movie_popular").remove(token)
         for p in popular:
             data = {"id": p.id, "title": p.title, "overview": p.overview,
                     "poster_path": p.poster_path, "release_date": p.release_date, "popularity": p.popularity,
                     "original_title": p.original_title, "vote_count": p.vote_count, "vote_average": p.vote_average}
-            db.child("movie_popular").child(p.id).set(data, token)
+            db.child(uid).child("movie_popular").child(p.id).set(data, token)
         response = {"status": 200, "message": "Success Save"}
         return JsonResponse(response)
 
@@ -138,14 +138,14 @@ def search_movie(request):
             query = request.POST.get('query', 'Marlina')
             search = movie.search(query)
 
-            db, token = initializationDb()
+            db, token, uid = initializationDb()
             for p in search:
                 data = {"id": p.id, "title": p.title,
                         "overview": p.overview, "poster_path": p.poster_path,
                         "release_date": p.release_date, "popularity": p.popularity,
                         "original_title": p.original_title, "vote_count": p.vote_count,
                         "vote_average": p.vote_average}
-                db.child("movie_list").child(p.id).set(data, token)
+                db.child(uid).child("movie_list").child(p.id).set(data, token)
             response = {"status": 200, "message": "Success Save"}
             return JsonResponse(response)
         else:
@@ -155,17 +155,17 @@ def search_movie(request):
 
 @require_http_methods(["GET"])
 def search(request):
-    db, token = initializationDb()
-    result = db.child("tweet").get(token)
+    db, token, uid = initializationDb()
+    result = db.child(uid).child("tweet").get(token)
     return JsonResponse(result.val())
 
 
 @require_http_methods(["GET"])
 def retrieve_popular(request):
-    db, token = initializationDb()
+    db, token, uid = initializationDb()
     output = {}
     out = []
-    result = db.child("movie_popular").get(token)
+    result = db.child(uid).child("movie_popular").get(token)
     movies = result.val()
     for movie in movies:
         out.append(movies[movie])
@@ -175,8 +175,8 @@ def retrieve_popular(request):
 
 @require_http_methods(["GET"])
 def retrieve_movie(request):
-    db, token = initializationDb()
-    result = db.child("movie_list").get(token)
+    db, token, uid = initializationDb()
+    result = db.child(uid).child("movie_list").get(token)
     single = int(request.GET.get('mode', 2))
     name = request.GET.get('query', 'Marlina')
     value = result.val()
@@ -210,7 +210,7 @@ def retrieve_movie(request):
 @require_http_methods(["POST"])
 def traindata(request):
     try:
-        db, token = initializationDb()
+        db, token, uid = initializationDb()
         lang = request.POST.get("lang", "en")
         queryRaw = request.POST.get("query", "Film")
         count = int(request.POST.get("count", 10))
