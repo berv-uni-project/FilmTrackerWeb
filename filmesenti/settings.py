@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ('DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
     'sentiweb.apps.SentiWebConfig',
     'django.contrib.admin',
     'django.contrib.auth',
