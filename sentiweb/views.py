@@ -31,7 +31,8 @@ def index(request):
 
 @require_http_methods(["POST"])
 def search(request):
-    url_film = 'http://twitter-crawler-data.herokuapp.com/api/release'
+    url_film = os.environ.get(
+        'SEARCH_URL', 'https://filmesenti.herokuapp.com/api/release')
     image_base = 'https://image.tmdb.org/t/p/w500/'
     query = request.POST.get('query', '')
     payload = {'mode': 0, 'query': query}
