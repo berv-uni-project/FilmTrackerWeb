@@ -8,6 +8,7 @@ from . import classifier_en
 import requests
 import json
 import sys
+import os
 
 @require_http_methods(["GET"])
 def index(request):
