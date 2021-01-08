@@ -12,7 +12,8 @@ import sys
 @require_http_methods(["GET"])
 def index(request):
     setattr(sys.modules["__main__"], 'stemming_tokenizer', classifier_en.stemming_tokenizer)
-    url_film = 'http://twitter-crawler-data.herokuapp.com/api/popular'
+    url_film = os.environ.get(
+        'FILM_URL', 'https://filmesenti.herokuapp.com/api/popular')
     image_base = 'https://image.tmdb.org/t/p/w500/'
     req = requests.get(url_film)
     jsonData = json.loads(req.text)
