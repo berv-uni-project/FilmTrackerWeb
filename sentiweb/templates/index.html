@@ -25,9 +25,11 @@
         window.axios.get(apiUrl).then((response) => {
             const responseData = response.data;
             const movies = responseData.movies;
-            console.log(movies);
+            console.log(`Before: ${JSON.stringify(app.movies)}`)
             app.movies = movies;
+            console.log(`After: ${JSON.stringify(app.movies)}`)
             Vue.nextTick(function () {
+                console.log(`Next Tick: ${JSON.stringify(app.movies)}`)
                 initChart(app.movies);
             });
         }).catch((error) => {
