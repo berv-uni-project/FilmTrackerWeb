@@ -1,9 +1,7 @@
-Vue.component('film-list', {
-  props: ['filmData', 'imageBase'],
-  template: `
-        <div>
-            <ul v-if="filmData" class="collapsible">
-            <li v-for="movie in filmData" v-bind:key="movie.id">
+Vue.component('film-data', {
+    props: ['movie', 'imageBase'],
+    template: `
+            <li>
                 <div class="collapsible-header">{{movie.title}}</div>
                 <div class="collapsible-body">
                     <div class="row">
@@ -23,10 +21,5 @@ Vue.component('film-list', {
                     </div>
                 </div>
             </li>
-            </ul>
-            <p v-else>
-            Empty
-            </p>
-        </div>
         `
 });

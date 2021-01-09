@@ -13,7 +13,13 @@
 <div id="trending" class="row">
     <h2>Trending Film</h2>
     <div class="trending-result">
-        <film-list v-bind:filmData="movies" imageBase="{{image_base}}"></film-list>
+        <ul v-if="movies.length > 0" class="collapsible">
+            <film-data v-for="movie in movies" v-bind:movie="movie" v-bind:key="movie.id" imageBase="{{image_base}}">
+            </film-data>
+        </ul>
+        <p v-else>
+            Empty
+        </p>
     </div>
 </div>
 {% endblock %}
