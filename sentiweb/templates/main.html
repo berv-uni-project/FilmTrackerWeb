@@ -59,13 +59,23 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 	<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/components.js' %}"></script>
+	{% block additionalscript %}
+	{% endblock %}
 	<script type="text/javascript">
+		if (!mountFunction) {
+			mountFunction = function () {
+				console.log('Mounted');
+			}
+		}
 		const data = {
 			movies: []
 		};
 		const app = new Vue({
 			el: '#app',
-			data: data
+			data: data,
+			mounted() {
+				mountFunction();
+			}
 		})
 	</script>
 	{% block additionalscript %}

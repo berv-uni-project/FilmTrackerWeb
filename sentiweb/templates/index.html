@@ -20,25 +20,31 @@
 
 {% block additionalscript %}
 <script type="text/javascript">
-    const apiUrl = "{{ url_film }}";
-    window.axios.get(apiUrl).then((response) => {
-        const responseData = response.data;
-        const movies = responseData.movies;
-        console.log(movies);
-        app.movies = movies;
-        Vue.nextTick(function () {
-            initChart(app.movies);
+    mountFunction = function () {
+        const apiUrl = "{{ url_film }}";
+        window.axios.get(apiUrl).then((response) => {
+            const responseData = response.data;
+            const movies = responseData.movies;
+            console.log(movies);
+            app.movies = movies;
+            Vue.nextTick(function () {
+                initChart(app.movies);
+            });
+        }).catch((error) => {
+            console.log(error);
         });
-    }).catch((error) => {
-        console.log(error);
-    });
+    }
 
     function initChart(movies) {
         if (!Array.isArray(movies)) {
             return;
         }
         movies.forEach((element) => {
-            const ctx = document.getElementById(`trend-${element.id}`).getContext('2d');
+            const documentId = document.getElementById(`trend-${element.id}`);
+            if (!documentId) {
+                return;
+            }
+            const ctx = documentId.getContext('2d');
             const data = {
                 datasets: [{
                     data: [Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1)],
