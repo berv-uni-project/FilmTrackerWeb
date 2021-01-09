@@ -48,7 +48,9 @@
 <script type="text/javascript">
     const apiUrl = "{{ url_film }}";
     window.axios.get(apiUrl).then((response) => {
-        console.log(response);
+        const responseData = response.data;
+        const movies = responseData.movies;
+        console.log(movies);
     }).catch((error) => {
         console.log(error);
     });
