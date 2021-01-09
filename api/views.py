@@ -27,7 +27,7 @@ def initializationDb():
     user = auth.sign_in_with_email_and_password(email, password)
 
     # Get a reference to the database service
-    return firebase.database(), user['idToken'], user['userId']
+    return firebase.database(), user['idToken'], user['localId']
 
 
 @require_http_methods(["GET", "POST"])
