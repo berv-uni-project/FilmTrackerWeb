@@ -13,7 +13,7 @@
 <div id="trending" class="row">
     <h2>Trending Film</h2>
     <div class="trending-result">
-        <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
+        <film-list v-bind:filmData="movies" imageBase="{{image_base}}"></film-list>
     </div>
 </div>
 {% endblock %}
