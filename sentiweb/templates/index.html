@@ -18,9 +18,9 @@
 </div>
 {% endblock %}
 
-{% block additionalscript %}
+{% block defineFunction %}
 <script type="text/javascript">
-    mountFunction = function () {
+    const mountFunction = function () {
         const apiUrl = "{{ url_film }}";
         window.axios.get(apiUrl).then((response) => {
             const responseData = response.data;
@@ -32,8 +32,7 @@
             console.log(error);
         });
     }
-</script>
-<script type="text/javascript">
+
     function initChart(movies) {
         if (!Array.isArray(movies)) {
             return;
