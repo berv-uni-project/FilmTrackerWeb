@@ -15,6 +15,9 @@
     <div class="trending-result">
         <p>Empty</p>
     </div>
+    <div id="app-2">
+        <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
+    </div>
     {% comment "data" %}
     <ul class="collapsible">
         {% for movie in film_data %}
@@ -46,13 +49,22 @@
 
 {% block additionalscript %}
 <script type="text/javascript">
-    const apiUrl = "{{ url_film }}";
-    window.axios.get(apiUrl).then((response) => {
-        const responseData = response.data;
-        const movies = responseData.movies;
-        console.log(movies);
-    }).catch((error) => {
-        console.log(error);
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            movies: []
+        },
+        mounted() {
+            const apiUrl = "{{ url_film }}";
+            window.axios.get(apiUrl).then((response) => {
+                const responseData = response.data;
+                const movies = responseData.movies;
+                console.log(movies);
+                this.movies = movies;
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     });
 </script>
 {% comment "js" %}
