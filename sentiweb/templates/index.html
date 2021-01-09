@@ -13,55 +13,58 @@
 <div id="trending" class="row">
     <h2>Trending Film</h2>
     <div class="trending-result">
-        <div id="app-2">
-            <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
-        </div>
+        <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
     </div>
 </div>
 {% endblock %}
 
 {% block additionalscript %}
 <script type="text/javascript">
-    const apiUrl = "{{ url_film }}";
-    window.axios.get(apiUrl).then((response) => {
-        const responseData = response.data;
-        const movies = responseData.movies;
-        console.log(movies);
-        data.movies = movies;
-    }).catch((error) => {
-        console.log(error);
-    });
+    mountFunction = function () {
+        const apiUrl = "{{ url_film }}";
+        window.axios.get(apiUrl).then((response) => {
+            const responseData = response.data;
+            const movies = responseData.movies;
+            console.log(movies);
+            data.movies = movies;
+            initChart(movies);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 </script>
-{% comment "js" %}
 <script type="text/javascript">
-    var ctx = document.getElementById('trend-{{movie.id}}').getContext('2d');
-
-    var data = {
-        datasets: [{
-            data: [Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1)],
-            backgroundColor: ["#00ff00", "#ff0000"],
-            label: "{{ movie.title | safe}}"
-        }],
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Like',
-            'Dislike',
-            'Unknown'
-        ]
-    };
-
-    var options = {
-        title: {
-            display: true,
-            text: "{{movie.title | safe}}"
+    function initChart(movies) {
+        if (!Array.isArray(movies)) {
+            return;
         }
-    };
-
-    var myPieChart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: options
-    });
+        movies.forEach((element) => {
+            const ctx = document.getElementById(`trend-${element.id}`).getContext('2d');
+            const data = {
+                datasets: [{
+                    data: [Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1)],
+                    backgroundColor: ["#00ff00", "#ff0000"],
+                    label: `${element.title}`
+                }],
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    'Like',
+                    'Dislike',
+                    'Unknown'
+                ]
+            };
+            const options = {
+                title: {
+                    display: true,
+                    text: `${element.title}`
+                }
+            };
+            const myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        });
+    }
 </script>
-{% endcomment %}
 {% endblock %}

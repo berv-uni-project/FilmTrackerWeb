@@ -63,9 +63,15 @@
 		const data = {
 			movies: []
 		};
+		const mountFunction = function () {
+			console.log("Mounted");
+		}
 		const app = new Vue({
 			el: '#app',
-			data: data
+			data: data,
+			mounted() {
+				mountFunction();
+			}
 		})
 	</script>
 	{% block additionalscript %}
