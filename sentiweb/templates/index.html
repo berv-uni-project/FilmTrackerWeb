@@ -20,18 +20,18 @@
 
 {% block defineFunction %}
 <script type="text/javascript">
-    const mountFunction = function () {
-        const apiUrl = "{{ url_film }}";
-        window.axios.get(apiUrl).then((response) => {
-            const responseData = response.data;
-            const movies = responseData.movies;
-            console.log(movies);
-            data.movies = movies;
-            initChart(movies);
-        }).catch((error) => {
-            console.log(error);
+    const apiUrl = "{{ url_film }}";
+    window.axios.get(apiUrl).then((response) => {
+        const responseData = response.data;
+        const movies = responseData.movies;
+        console.log(movies);
+        app.movies = movies;
+        Vue.nextTick(function () {
+            initChart(app.movies);
         });
-    }
+    }).catch((error) => {
+        console.log(error);
+    });
 
     function initChart(movies) {
         if (!Array.isArray(movies)) {
