@@ -19,7 +19,7 @@
                 <div class="collapsible-body">
                     <div class="row">
                         <div class="col s12 m4 l2">
-                            <img class="materialboxed responsive-img" src="[[imageBase]][[movie.poster_path]]">
+                            <img class="materialboxed responsive-img" :src="`${imageBase}${movie.poster_path}`">
                         </div>
                         <div class="col s12 m8 l4">
                             <h4>[[ movie.title ]]</h4>
@@ -29,7 +29,7 @@
                             <p>[[ movie.release_date]]</p>
                         </div>
                         <div class="col s12 m12 l6">
-                            <canvas id="trend-[[ movie.id ]]"></canvas>
+                            <canvas :id="`trend-${movie.id}`"></canvas>
                         </div>
                     </div>
                 </div>
