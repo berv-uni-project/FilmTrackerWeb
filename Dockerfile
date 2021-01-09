@@ -7,5 +7,6 @@ RUN apt-get update && apt-get install -y postgresql-client \
   &&  pip install --no-cache-dir --upgrade pip \
   &&  pip install --no-cache-dir -r requirements.txt
 COPY . .
+RUN python manage.py collectstatic --noinput
 RUN chmod +x startup.sh
 ENTRYPOINT [ "./startup.sh" ]
