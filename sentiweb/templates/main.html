@@ -68,10 +68,12 @@
 			}
 		}
 		const data = {
-			movies: []
+			movies: [],
+			imageBase: ''
 		};
 		const app = new Vue({
 			el: '#app',
+			delimiters: ['[[', ']]'],
 			data: data,
 			mounted() {
 				mountFunction();

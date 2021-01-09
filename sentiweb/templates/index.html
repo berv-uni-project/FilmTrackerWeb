@@ -14,8 +14,26 @@
     <h2>Trending Film</h2>
     <div class="trending-result">
         <ul v-if="movies.length > 0" class="collapsible">
-            <film-data v-for="movie in movies" v-bind:movie="movie" v-bind:key="movie.id" imageBase="{{image_base}}">
-            </film-data>
+            <li v-for="movie in movies" v-bind:key="movie.id">
+                <div class="collapsible-header">[[movie.title]]</div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <div class="col s12 m4 l2">
+                            <img class="materialboxed responsive-img" src="[[imageBase]][[movie.poster_path]]">
+                        </div>
+                        <div class="col s12 m8 l4">
+                            <h4>[[ movie.title ]]</h4>
+                            <h5>Overview</h5>
+                            <p>[[ movie.overview ]]</p>
+                            <h5>Release Date</h5>
+                            <p>[[ movie.release_date]]</p>
+                        </div>
+                        <div class="col s12 m12 l6">
+                            <canvas id="trend-[[ movie.id ]]"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </li>
         </ul>
         <p v-else>
             Empty
@@ -28,12 +46,14 @@
 <script type="text/javascript">
     mountFunction = function () {
         const apiUrl = "{{ url_film }}";
+        const imageBase = "{{ imageBase }}";
+        this.imageBase = imageBase;
         window.axios.get(apiUrl).then((response) => {
             const responseData = response.data;
             const movies = responseData.movies;
             this.movies = movies;
             Vue.nextTick().then(() => {
-                console.log(`Next Tick: ${JSON.stringify(this.movies)}`)
+                console.log('Next Tick')
                 initChart(this.movies);
             }).catch((errorNext) => {
                 console.log(errorNext);
