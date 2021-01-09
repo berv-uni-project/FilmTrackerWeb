@@ -13,44 +13,52 @@
 <div id="trending" class="row">
     <h2>Trending Film</h2>
     <div class="trending-result">
-        <p>Empty</p>
+        <div id="app-2">
+            <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
+        </div>
     </div>
-    <div id="app-2">
-        <film-list :filmData="movies" imageBase="{{image_base}}"></film-list>
-    </div>
-    {% comment "data" %}
-    <ul class="collapsible">
-        {% for movie in film_data %}
-        <li>
-            <div class="collapsible-header">{{movie.title}}</div>
-            <div class="collapsible-body">
-                <div class="row">
-                    <div class="col s12 m4 l2">
-                        <img class="materialboxed responsive-img" src="{{image_base}}{{movie.poster_path}}">
-                    </div>
-                    <div class="col s12 m8 l4">
-                        <h4>{{ movie.title }}</h4>
-                        <h5>Overview</h5>
-                        <p>{{ movie.overview }}</p>
-                        <h5>Release Date</h5>
-                        <p>{{ movie.release_date}}</p>
-                    </div>
-                    <div class="col s12 m12 l6">
-                        <canvas id="trend-{{ movie.id }}"></canvas>
-                    </div>
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endcomment %}
 </div>
 {% endblock %}
 
 {% block additionalscript %}
 <script type="text/javascript">
-    var app2 = new Vue({
+    const filmList = {
+        props: ['filmData', 'imageBase'],
+        template: `
+        <div>
+            <ul v-if="filmData" class="collapsible">
+            <li v-for="movie in filmData" v-bind:key="movie.id">
+                <div class="collapsible-header">{{movie.title}}</div>
+                <div class="collapsible-body">
+                <div class="row">
+                    <div class="col s12 m4 l2">
+                    <img class="materialboxed responsive-img" src="{{imageBase}}{{movie.poster_path}}">
+                    </div>
+                    <div class="col s12 m8 l4">
+                    <h4>{{ movie.title }}</h4>
+                    <h5>Overview</h5>
+                    <p>{{ movie.overview }}</p>
+                    <h5>Release Date</h5>
+                    <p>{{ movie.release_date}}</p>
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <canvas id="trend-{{ movie.id }}"></canvas>
+                    </div>
+                </div>
+                </div>
+            </li>
+            </ul>
+            <p v-else>
+            Empty
+            </p>
+        </div>
+        `
+    };
+    const app2 = new Vue({
         el: '#app-2',
+        components: {
+            'film-list': filmList
+        },
         data: {
             movies: []
         },
