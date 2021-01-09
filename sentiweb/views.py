@@ -16,8 +16,8 @@ def index(request):
     url_film = os.environ.get(
         'FILM_URL', 'https://filmesenti.herokuapp.com/api/popular')
     image_base = 'https://image.tmdb.org/t/p/w500/'
-    req = requests.get(url_film)
-    jsonData = json.loads(req.text)
+    # req = requests.get(url_film)
+    # jsonData = json.loads(req.text)
     result = []
     jsonData['movies'] = []
     # #for movie in jsonData['movies']:
@@ -27,7 +27,7 @@ def index(request):
     #     jsonData['movies'][movie]['count_unk'] = result['hasil']['count']['unk']
 
     forms = SearchForm()
-    return render(request, 'index.html', {'film_data': jsonData['movies'],  'image_base': image_base, 'forms': forms})
+    return render(request, 'index.html', {'url_film': url_film,  'image_base': image_base, 'forms': forms})
 
 @require_http_methods(["POST"])
 def search(request):
