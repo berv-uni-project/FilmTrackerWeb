@@ -25,6 +25,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(util.strtobool(os.environ.get('DEBUG', 'true')))
 
+DEBUG_PROPAGATE_EXCEPTIONS = bool(util.strtobool(
+    os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS', 'true')))
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -129,4 +132,3 @@ STATICFILES_DIRS = (
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
