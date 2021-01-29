@@ -4,9 +4,9 @@ Web Consume Data from Twitter and Analyze Data to Film Statistic
 
 ## Build Status
 
-| Github Action - Docker | Github Action - Django Test |
-|:----------------------:|:---------------------------:|
-| ![Docker](https://github.com/berv-uni-project/FilmTrackerWeb/workflows/Docker/badge.svg) | ![Django CI](https://github.com/berv-uni-project/FilmTrackerWeb/workflows/Django%20CI/badge.svg) |
+| Github Action - Django Test |
+|:---------------------------:|
+| ![Django CI](https://github.com/berv-uni-project/FilmTrackerWeb/workflows/Django%20CI/badge.svg) |
 
 ## Current Maintainer
 
