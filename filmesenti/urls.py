@@ -13,15 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='/v1')),
-    url(r'^v1/', include('sentiweb.urls')),
-    url(r'^api/', include('api.urls')),
-    url(r'^admin/', admin.site.urls),
+    re_path(r'^$', RedirectView.as_view(url='/v1')),
+    re_path(r'^v1/', include('sentiweb.urls')),
+    re_path(r'^api/', include('api.urls')),
+    re_path(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
