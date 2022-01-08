@@ -1,14 +1,14 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 urlpatterns = [
-	url(r'^search', views.search, name='search'),
-	url(r'^savesearch', views.save, name='save'),
-	url(r'^release', views.retrieve_movie, name='release'),
-	url(r'^saverelease', views.movie_list, name='saverelease'),
-	url(r'^popular', views.retrieve_popular, name='popular'),
-	url(r'^savemovie', views.search_movie, name='savemovie'),
-	url(r'^savepopular', views.popular_movie, name='savepopular'),
-	url(r'^traindata', views.traindata, name='traindata')
+	re_path(r'^search', views.search, name='search'),
+	re_path(r'^savesearch', views.save, name='save'),
+	re_path(r'^release', views.retrieve_movie, name='release'),
+	re_path(r'^saverelease', views.movie_list, name='saverelease'),
+	re_path(r'^popular', views.retrieve_popular, name='popular'),
+	re_path(r'^savemovie', views.search_movie, name='savemovie'),
+	re_path(r'^savepopular', views.popular_movie, name='savepopular'),
+	re_path(r'^traindata', views.traindata, name='traindata')
 ]
