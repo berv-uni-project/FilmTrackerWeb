@@ -10,5 +10,5 @@ tmdbv3api==1.7.7
 tweet-preprocessor==0.6.0
 TwitterSearch==1.0.2
 twython==3.9.1
-whitenoise==6.2.0
+whitenoise==6.3.0
 rsa>=4.7 # not directly required, pinned by Snyk to avoid a vulnerability
