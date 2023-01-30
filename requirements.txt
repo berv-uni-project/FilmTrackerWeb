@@ -5,7 +5,7 @@ numpy==1.24.1
 psycopg2==2.9.5
 pyrebase==3.0.27
 scipy==1.10.0
-scikit-learn==1.2.0
+scikit-learn==1.2.1
 tmdbv3api==1.7.7
 tweet-preprocessor==0.6.0
 TwitterSearch==1.0.2
