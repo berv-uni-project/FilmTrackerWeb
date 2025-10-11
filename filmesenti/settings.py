@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-from distutils import util
+from setuptools.distutils.util import strtobool
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +25,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(util.strtobool(os.environ.get('DEBUG', 'true')))
 
-DEBUG_PROPAGATE_EXCEPTIONS = bool(util.strtobool(
+DEBUG_PROPAGATE_EXCEPTIONS = bool(strtobool(
     os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS', 'true')))
 
 ALLOWED_HOSTS = ['*']
