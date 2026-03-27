@@ -1,6 +1,6 @@
 Django==6.0.3
 gunicorn==25.1.0
-nltk==3.9.3
+nltk==3.9.4
 numpy==2.4.3
 psycopg2==2.9.11
 Pyrebase4==4.9.0
