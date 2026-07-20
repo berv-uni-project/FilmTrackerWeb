@@ -6,7 +6,7 @@ psycopg2==2.9.12
 Pyrebase4==4.9.0
 scipy==1.17.1
 scikit-learn==1.8.0
-setuptools==82.0.1
+setuptools==83.0.0
 tmdbv3api==1.9.0
 tweet-preprocessor==0.6.0
 TwitterSearch==1.0.2
