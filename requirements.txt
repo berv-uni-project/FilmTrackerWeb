@@ -4,7 +4,7 @@ nltk==3.9.4
 numpy==2.5.1
 psycopg2==2.9.12
 Pyrebase4==4.9.0
-scipy==1.17.1
+scipy==1.18.0
 scikit-learn==1.8.0
 setuptools==83.0.0
 tmdbv3api==1.9.0
